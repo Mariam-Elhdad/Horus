@@ -11,11 +11,7 @@ from django.urls import reverse
 from horus.users.forms import UserAdminChangeForm
 from horus.users.models import User
 from horus.users.tests.factories import UserFactory
-from horus.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from horus.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
