@@ -36,10 +36,8 @@ urlpatterns += [
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
-
-    path('auth/', include('djoser.urls.authtoken')),
-    path('auth/', include('djoser.urls')),
-
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
 ]
 
 if settings.DEBUG:
