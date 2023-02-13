@@ -5,8 +5,8 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-
-from .serializers import UserSerializer
+from horus.users.models import UserProfile
+from .serializers import UserSerializer, UserProfileCreateSerializer
 
 User = get_user_model()
 
@@ -39,3 +39,13 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     def me(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+   
+
+
+class ProfileCreateView(generics.CreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileCreateSerializer
+    permission_classes = (AllowAny,)
+
+    
