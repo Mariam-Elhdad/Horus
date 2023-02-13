@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from horus.users.models import UserProfile
-from .serializers import UserSerializer, UserProfileCreateSerializer
-
+from .serializers import UserSerializer, UserProfileCreateSerializer, UserProfileSerializer
+from rest_framework.views import APIView
 User = get_user_model()
 
 
@@ -49,3 +49,36 @@ class ProfileCreateView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
 
     
+
+class UserProfileObject(APIView):
+    # ---------------- helper methods ------------------- #
+    def get_profile_object(self, request):
+        user = request.user
+        try:
+            return user.profile_name
+        except:
+            return None
+         
+    # ----------------- main methods ---------------------  #
+    def get(self, request):
+        profile = self.get_profile_object(request)
+        if profile is None:
+            return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request):
+        profile = self.get_profile_object(request)
+        if profile is None:
+            return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserProfileSerializer(profile, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response({'details', 'profile updated successfully'}, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        profile = self.get_profile_object(request)
+        if profile is None:
+            return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
+        profile.delete()
+        return Response({'details', 'profile deleted successfully'}, status=status.HTTP_200_OK)

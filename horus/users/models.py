@@ -91,6 +91,19 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    @property
+    def email(self):
+        return self.user.email
+
+    @property
+    def username(self):
+        return self.user.username
+    
+    @property
+    def full_name(self):
+        return self.user.name
+
     def __str__(self) -> str:
         return self.user.email
     
