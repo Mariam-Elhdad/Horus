@@ -8,6 +8,12 @@ from rest_framework.viewsets import GenericViewSet
 from horus.users.models import UserProfile
 from .serializers import UserSerializer, UserProfileCreateSerializer, UserProfileSerializer
 from rest_framework.views import APIView
+from rest_framework import mixins
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+import requests
+
 User = get_user_model()
 
 
@@ -68,13 +74,15 @@ class UserProfileObject(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request):
+
         profile = self.get_profile_object(request)
+        print(request.data)
         if profile is None:
             return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = UserProfileSerializer(profile, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-        return Response({'details', 'profile updated successfully'}, status=status.HTTP_200_OK)
+        return Response({'details': 'profile updated successfully'}, status=status.HTTP_200_OK)
 
     def delete(self, request):
         profile = self.get_profile_object(request)
@@ -82,3 +90,47 @@ class UserProfileObject(APIView):
             return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
         profile.delete()
         return Response({'details', 'profile deleted successfully'}, status=status.HTTP_200_OK)
+
+
+
+class UserProfileObject2(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = 'user_id'
+
+    @staticmethod
+    def get_token_value(request)->str:
+        # 'Token 18iwejwjr9o1j'.splitez()[1]
+        try:
+            return request.META.get('HTTP_AUTHORIZATION').split(' ')[1] 
+        except:
+            return None # if not auth
+    def get(self, request, user_id):
+        if request.user.id == user_id:
+            return redirect(reverse('users:profile.me'))
+        return self.retrieve(request)
+    
+    def put(self, request, user_id):
+        if request.user.id == user_id:
+            data = request.data 
+          
+            headers = {'Authorization': 'JWT {}'.format(self.get_token_value(request))}           
+            response = requests.put('http://localhost:8000'+reverse('users:profile.me'), data=data, headers=headers)
+            
+            return Response(status=response.status_code)
+
+        return Response({'details': 'you don\'t have permission'}, status=status.HTTP_403_FORBIDDEN)
+    
+    def delete(self, request, user_id):
+        if request.user.id == user_id:
+            headers = {'Authorization': 'JWT {}'.format(self.get_token_value(request))}           
+            response = requests.delete('http://localhost:8000'+reverse('users:profile.me'), headers=headers)
+            
+            return Response(status=response.status_code)
+        return Response({'details': 'you don\'t have permission'}, status=status.HTTP_403_FORBIDDEN)
+
+# class CountryCodes(APIView):
+#     permission_classes = (AllowAny, )
+#     def get(self, request):
+#         return Response({'country_codes': get_country_codes()})
+        
