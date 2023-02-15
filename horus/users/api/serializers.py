@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from horus.users.models import UserProfile
+from horus.users.models import UserProfile, ImageUpload
 from .helpers import check_password_strength
 from django.shortcuts import get_object_or_404
 
@@ -91,3 +91,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('date_of_birth', 'phone', 'code_country', 'bio', 'email', 'username',
                     'full_name')
+
+class ImageUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageUpload
+        fields = ('image',)
+
+    def create(self, validated_data):
+        profile = self.context['request'].user.profile_name
+        if profile is None:
+            AssertionError('profile not found')
+        image = ImageUpload.objects.create(**validated_data)
+        profile.picture = image
+        profile.save()
+        return image
+

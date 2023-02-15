@@ -83,7 +83,7 @@ class ImageUpload(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile_name', on_delete=models.CASCADE)
-    picture = models.ForeignKey(ImageUpload, related_name='profile_picture', on_delete=models.SET_NULL, null=True, blank=True, db_constraint=False)
+    picture = models.OneToOneField(ImageUpload, related_name='profile_picture', on_delete=models.SET_NULL, null=True, blank=True, db_constraint=False)
     date_of_birth = models.DateField()
     phone = models.CharField(max_length=20)
     bio = models.TextField(default='I am a user')

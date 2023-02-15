@@ -5,14 +5,16 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from horus.users.models import UserProfile
-from .serializers import UserSerializer, UserProfileCreateSerializer, UserProfileSerializer
+from horus.users.models import UserProfile, User, ImageUpload
+from .serializers import UserSerializer, UserProfileCreateSerializer, UserProfileSerializer, \
+    ImageUploadSerializer
 from rest_framework.views import APIView
 from rest_framework import mixins
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import requests
+from .permissions import IsOwnerOrReadOnly
 
 User = get_user_model()
 
@@ -129,8 +131,68 @@ class UserProfileObject2(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mix
             return Response(status=response.status_code)
         return Response({'details': 'you don\'t have permission'}, status=status.HTTP_403_FORBIDDEN)
 
-# class CountryCodes(APIView):
-#     permission_classes = (AllowAny, )
-#     def get(self, request):
-#         return Response({'country_codes': get_country_codes()})
+
+def get_country_codes() -> list:
+    from .CountryCodes import country_codes
+    return country_codes
+
+class CountryCodes(APIView):
+    permission_classes = (AllowAny, )
+    def get(self, request):
+        return Response({'country_codes': get_country_codes()})
         
+class ImageUploadCreate(generics.CreateAPIView):
+    queryset = ImageUpload.objects.all()
+    serializer_class = ImageUploadSerializer
+
+
+class ImageUploadObject(generics.RetrieveDestroyAPIView):
+    queryset = ImageUpload.objects.all()
+    serializer_class = ImageUploadSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    lookup_field = 'id'
+    
+
+# class ImageUploadObject(APIView):
+#     # ---------------- helper methods ------------------- #
+#     def get_profile(self, request):
+#         user = request.user
+#         if user is None:
+#             return
+#         return user.profile_name
+
+#     def assign_image_to_profile(self, request, Image) -> bool: # if it assign successfully
+#         profile = self.get_profile(request)
+#         if profile is None:
+#             return False
+#         profile.picture = Image
+#         profile.save()
+#         return True
+
+#     def get_image_of_user(self, id):
+#         user = get_object_or_404(User, id=id)
+#         profile = user.profile_name
+#         if profile is None:
+#             return None
+#         return profile.picture
+
+#     # ------------------ main methods -------------------- #
+#     def put(self, request):
+#         try:
+#             file = request.data['file']
+#         except KeyError:
+#             return Response({'details': 'Request has no resource file attached'}, status=status.HTTP_400_BAD_REQUEST)
+#         Image = ImageUpload.objects.create(image=file)
+#         if self.assign_image_to_profile(request, Image) == False:
+#             return Response({'details': 'may profile not found'}, status=status.HTTP_400_BAD_REQUEST)
+#         return Response({'details': 'uploaded successfully', 'Image_id': Image.id}, status=status.HTTP_201_CREATED)
+
+    
+#     def get(self, request, email):
+#         image = self.get_image_of_user(id)
+#         if image is None:
+#             return Response({'details': 'image not found or profile not exist'}, status=status.HTTP_404_NOT_FOUND)
+#         serializer = ImageUploadSerializer(image)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
