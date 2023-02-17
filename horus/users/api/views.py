@@ -50,8 +50,13 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
    
 
+# ============================== User Profile ============================  #
 
 class ProfileCreateView(generics.CreateAPIView):
+    '''
+    This view for creating the profile
+    methods [POST]
+    '''
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileCreateSerializer
     permission_classes = (AllowAny,)
@@ -59,14 +64,20 @@ class ProfileCreateView(generics.CreateAPIView):
     
 
 class UserProfileObject(APIView):
+    '''
+    That view for retraive and update and delete the profile of current user
+    methods [GET, PUT, DELETE]
+    '''
     # ---------------- helper methods ------------------- #
     def get_profile_object(self, request):
         user = request.user
         try:
             return user.profile_name
         except:
+            # when the user is None there is no profile
             return None
          
+
     # ----------------- main methods ---------------------  #
     def get(self, request):
         profile = self.get_profile_object(request)
@@ -76,9 +87,7 @@ class UserProfileObject(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request):
-
         profile = self.get_profile_object(request)
-        print(request.data)
         if profile is None:
             return Response({'details': 'the profile is not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = UserProfileSerializer(profile, data=request.data)
@@ -96,30 +105,47 @@ class UserProfileObject(APIView):
 
 
 class UserProfileObject2(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    '''
+    That view for retraive and update and delete the profile by user id
+    methods [GET, PUT, DELETE]
+    '''
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     lookup_field = 'user_id'
-
+    # ------------------- static methods ---------------- #
     @staticmethod
     def get_token_value(request)->str:
-        # 'Token 18iwejwjr9o1j'.splitez()[1]
+        '''
+        get token from the request
+        '''
         try:
+            # 'Token 18iwejwjr9o1j'.splitez()[1]
             return request.META.get('HTTP_AUTHORIZATION').split(' ')[1] 
         except:
             return None # if not auth
+
+    @staticmethod
+    def is_profile_owner(request, user_id) -> bool:
+        '''
+        return True if the current user is the profile owener else False
+        '''
+        return request.user.id == user_id
+
+
+    # -------------- main methods ------------------- #
     def get(self, request, user_id):
-        if request.user.id == user_id:
+        if self.is_profile_owner(request, user_id):
             return redirect(reverse('users:profile.me'))
         return self.retrieve(request)
     
     def put(self, request, user_id):
-        if request.user.id == user_id:
-            data = request.data 
-          
-            headers = {'Authorization': 'JWT {}'.format(self.get_token_value(request))}           
+        if self.is_profile_owner(request, user_id):
+            data = request.data
+            headers = {'Authorization': 'JWT {}'.format(self.get_token_value(request))}
+            # TODO: change the host at production        
             response = requests.put('http://localhost:8000'+reverse('users:profile.me'), data=data, headers=headers)
             
-            return Response(status=response.status_code)
+            return Response(response.json(), status=response.status_code)
 
         return Response({'details': 'you don\'t have permission'}, status=status.HTTP_403_FORBIDDEN)
     
@@ -127,12 +153,16 @@ class UserProfileObject2(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mix
         if request.user.id == user_id:
             headers = {'Authorization': 'JWT {}'.format(self.get_token_value(request))}           
             response = requests.delete('http://localhost:8000'+reverse('users:profile.me'), headers=headers)
-            
-            return Response(status=response.status_code)
+            return Response(response.json(), status=response.status_code)
+
         return Response({'details': 'you don\'t have permission'}, status=status.HTTP_403_FORBIDDEN)
 
 
+
+# ============================== Country codes =========================== #
+
 def get_country_codes() -> list:
+    '''get the country codes from other file'''
     from .CountryCodes import country_codes
     return country_codes
 
@@ -141,6 +171,10 @@ class CountryCodes(APIView):
     def get(self, request):
         return Response({'country_codes': get_country_codes()})
         
+
+
+# ========================= Image upload =================================== #
+
 class ImageUploadCreate(generics.CreateAPIView):
     queryset = ImageUpload.objects.all()
     serializer_class = ImageUploadSerializer
@@ -151,48 +185,3 @@ class ImageUploadObject(generics.RetrieveDestroyAPIView):
     serializer_class = ImageUploadSerializer
     permission_classes = (IsOwnerOrReadOnly,)
     lookup_field = 'id'
-    
-
-# class ImageUploadObject(APIView):
-#     # ---------------- helper methods ------------------- #
-#     def get_profile(self, request):
-#         user = request.user
-#         if user is None:
-#             return
-#         return user.profile_name
-
-#     def assign_image_to_profile(self, request, Image) -> bool: # if it assign successfully
-#         profile = self.get_profile(request)
-#         if profile is None:
-#             return False
-#         profile.picture = Image
-#         profile.save()
-#         return True
-
-#     def get_image_of_user(self, id):
-#         user = get_object_or_404(User, id=id)
-#         profile = user.profile_name
-#         if profile is None:
-#             return None
-#         return profile.picture
-
-#     # ------------------ main methods -------------------- #
-#     def put(self, request):
-#         try:
-#             file = request.data['file']
-#         except KeyError:
-#             return Response({'details': 'Request has no resource file attached'}, status=status.HTTP_400_BAD_REQUEST)
-#         Image = ImageUpload.objects.create(image=file)
-#         if self.assign_image_to_profile(request, Image) == False:
-#             return Response({'details': 'may profile not found'}, status=status.HTTP_400_BAD_REQUEST)
-#         return Response({'details': 'uploaded successfully', 'Image_id': Image.id}, status=status.HTTP_201_CREATED)
-
-    
-#     def get(self, request, email):
-#         image = self.get_image_of_user(id)
-#         if image is None:
-#             return Response({'details': 'image not found or profile not exist'}, status=status.HTTP_404_NOT_FOUND)
-#         serializer = ImageUploadSerializer(image)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
