@@ -1,3 +1,4 @@
+# list of country codes
 country_codes = [
     {"name": "Afghanistan", "dial_code": "+93", "code": "AF"},
     {"name": "Aland Islands", "dial_code": "+358", "code": "AX"},
