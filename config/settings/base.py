@@ -75,11 +75,12 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "djoser",
+    "taggit",
 ]
 
 LOCAL_APPS = [
     "horus.users",
-    # Your stuff: custom apps go here
+    "horus.tags",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -344,3 +345,5 @@ DJOSER = {
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
 }
+
+TAGGIT_CASE_INSENSITIVE = True
