@@ -10,4 +10,4 @@ class TagSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Tags
-        fields = "tags"
+        fields = "__all__"

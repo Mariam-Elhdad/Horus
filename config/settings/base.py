@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "djoser",
     "taggit",
+    "taggit_serializer",
 ]
 
 LOCAL_APPS = [
