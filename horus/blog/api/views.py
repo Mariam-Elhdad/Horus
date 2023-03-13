@@ -7,9 +7,8 @@ from rest_framework import generics
 from rest_framework.views import APIView
 
 from .permissions import CreatorOrReadOnlyPermission, PostIfCreatorPermission
-from horus.blog.models import ABCVoting, Downvote, Love, Post, Comment, Tag, Upvote
-from .serializers import BasePostSerializer, CommentFullDataSerializer, DownVoteSerializer, LoveSerializer, PostSerializer, CommentSerializer, CommentCreateSerializer, ReplyCreateSerializer, ReplySerializer, TagPostsSerializer, \
-  TaggingPostCreationSerializer, UpVoteSerializer
+from horus.blog.models import ABCVoting, Downvote, Love, Post, Comment, Upvote
+from .serializers import BasePostSerializer, CommentFullDataSerializer, DownVoteSerializer, LoveSerializer, PostSerializer, CommentSerializer, CommentCreateSerializer, ReplyCreateSerializer, ReplySerializer, UpVoteSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
@@ -75,34 +74,6 @@ class LoveView(generics.CreateAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         Love.objects.create(comment_id=comment.id, creator_id=creator.id)
         return Response(status=status.HTTP_200_OK)
-
-
-class Tagging(generics.CreateAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TaggingPostCreationSerializer
-    permission_classes = (PostIfCreatorPermission,)
-
-
-class UnTagging(generics.DestroyAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TaggingPostCreationSerializer
-    lookup_field = 'name'
-    permission_classes = (PostIfCreatorPermission,)
-
-    def perform_destroy(self, instance: Tag):
-        serializer = self.serializer_class(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        post = get_object_or_404(Post, id=self.request.data['post_id'])
-        instance.post.remove(post)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-    
-
-class TagPosts(generics.RetrieveAPIView):
-    queryset = Tag.objects.all()
-    serializer_class = TagPostsSerializer
-    lookup_field = 'name'
 
 
 class VotingManager(APIView):

@@ -1,5 +1,6 @@
 from django.db import models
 from horus.users.models import User
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -9,7 +10,7 @@ class Post(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts', default=1)
     date_posted = models.DateTimeField(auto_now_add=True)
     date_last_update = models.DateTimeField(auto_now=True)
-
+    tags = TaggableManager()
 
     @property
     def creator_id(self):
@@ -56,14 +57,6 @@ class Reply(CommentBase):
 
     def __str__(self):
         return f'{self.id} -> {self.comment}'
-
-
-class Tag(models.Model):
-    post = models.ManyToManyField(Post, related_name='post_tags')
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
 
 
 class ABCVoting(models.Model):
