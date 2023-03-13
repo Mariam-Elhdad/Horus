@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -39,7 +39,7 @@ class ServicesByLocation(APIView):
 class BankViewList(generics.ListAPIView):
     queryset = Bank.objects.all()
     serializer_class = BankSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Bank.get_by_location(self.request.data.get("location", "egypt"))
@@ -48,13 +48,13 @@ class BankViewList(generics.ListAPIView):
 class BankViewObject(generics.RetrieveAPIView):
     queryset = Bank.objects.all()
     serializer_class = BankSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class HotelViewList(generics.ListAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Hotel.get_by_location(self.request.data.get("location", "egypt"))
@@ -63,13 +63,13 @@ class HotelViewList(generics.ListAPIView):
 class HotelViewObject(generics.RetrieveAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class RestaurantViewList(generics.ListAPIView):
     queryset = Restraunt.objects.all()
     serializer_class = RestrauntSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Restraunt.get_by_location(self.request.data.get("location", "egypt"))
@@ -78,4 +78,4 @@ class RestaurantViewList(generics.ListAPIView):
 class RestaurantViewObject(generics.RetrieveAPIView):
     queryset = Restraunt.objects.all()
     serializer_class = RestrauntSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
