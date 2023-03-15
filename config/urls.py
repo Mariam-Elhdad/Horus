@@ -38,6 +38,7 @@ urlpatterns += [
     ),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
+    path("categories/", include("horus.categories.urls")),
 ]
 
 if settings.DEBUG:
