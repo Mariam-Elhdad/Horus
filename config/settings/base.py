@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.categories",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
