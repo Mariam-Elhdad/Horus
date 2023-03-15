@@ -10,3 +10,6 @@ class CategoryView(ReadOnlyModelViewSet):
     serializer_class = CategoriesSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = "name"
+
+
+##
