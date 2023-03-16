@@ -75,10 +75,12 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "djoser",
+    "taggit",
 ]
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.events",
     "horus.service",
     "horus.reviews",
 ]
