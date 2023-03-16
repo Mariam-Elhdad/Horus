@@ -75,10 +75,12 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "djoser",
+    "taggit",
 ]
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.events",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
