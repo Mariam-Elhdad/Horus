@@ -1,7 +1,6 @@
 """
 Base settings to build other settings files upon.
 """
-from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -80,7 +79,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "horus.users",
-    "horus.user_profile",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -345,7 +343,4 @@ DJOSER = {
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
-    "ACCESS_TOKEN_LIFETIME": timedelta(86400),
-    "REFRESH_TOKEN_LIFETIME": timedelta(864000),
-    # "ACCESS_TOKEN_LIFETIME": timedelta(10)
 }

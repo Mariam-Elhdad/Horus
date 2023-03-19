@@ -1,4 +1,4 @@
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from rest_framework import generics, status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
@@ -6,11 +6,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from horus.users.models import User
-
 from .serializers import UserSerializer
 
-# User = get_user_model()
+User = get_user_model()
 
 
 class RegisterUser(generics.GenericAPIView):
