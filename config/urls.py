@@ -17,6 +17,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("horus.users.urls", namespace="users")),
+    path("api/profiles/", include("horus.user_profile.api.urls")),
     path("accounts/", include("allauth.urls")),
     path("api/events/", include("horus.events.urls")),
     # Your stuff: custom urls includes go here
