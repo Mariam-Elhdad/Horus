@@ -4,6 +4,7 @@ from horus.users.api.views import RegisterUser
 from horus.users.views import user_detail_view, user_redirect_view, user_update_view
 
 app_name = "users"
+
 urlpatterns = [
     path("register/", RegisterUser.as_view(), name="register"),
     path("~redirect/", view=user_redirect_view, name="redirect"),
