@@ -84,12 +84,10 @@ LOCAL_APPS = [
     "horus.events",
     "horus.service",
 ]
-import os
+
 # TODO: may need change in deployment
 ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'es'
-    },
+    "default": {"hosts": "es"},
 }
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
