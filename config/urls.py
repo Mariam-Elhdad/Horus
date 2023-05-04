@@ -41,6 +41,7 @@ urlpatterns += [
     path("auth/", include("djoser.urls.jwt")),
     path("api/service/", include("horus.service.urls")),
     path("api/reviews/", include("horus.reviews.urls")),
+    path("api/search/", include("horus.search.urls")),
 ]
 
 if settings.DEBUG:

@@ -57,3 +57,6 @@ destroy:
 
 rm_pyc:
 	find . -name '__pycache__' -name '*.pyc' | xargs rm -rf
+
+build_index:
+	docker-compose -f local.yml run --rm django python manage.py search_index --rebuild

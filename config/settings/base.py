@@ -76,14 +76,22 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "djoser",
     "taggit",
+    "django_elasticsearch_dsl",
 ]
 
 LOCAL_APPS = [
     "horus.users",
     "horus.events",
     "horus.service",
-    "horus.reviews",
 ]
+import os
+# TODO: may need change in deployment
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'es'
+    },
+}
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
