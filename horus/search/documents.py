@@ -18,6 +18,7 @@ class BankDocsument(Document):
         fields = STANDARD_FIELDS
 
 
+
 @registry.register_document
 class RestaurantDocsument(Document):
     class Index:
@@ -28,6 +29,7 @@ class RestaurantDocsument(Document):
     class Django:
         model = Restaurant
         fields = STANDARD_FIELDS
+
 
 
 @registry.register_document

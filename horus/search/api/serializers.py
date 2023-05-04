@@ -49,6 +49,8 @@ class SearchSerializerResponse:
     # docs = {Bank: BankDocsument, Restaurant: RestaurantDocsument, Hotel: HotelDocsument}
     # --------------------- **** --------------------------- #
 
+    docs = {Bank: BankDocsument, Restraunt: RestrauntDocsument, Hotel: HotelDocsument}
+
     @classmethod
     def search(cls, request) -> dict:
         """
