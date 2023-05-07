@@ -85,6 +85,7 @@ LOCAL_APPS = [
     "horus.events",
     "horus.service",
     "horus.museums",
+    "horus.reviews",
 ]
 
 # TODO: may need change in deployment
