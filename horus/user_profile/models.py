@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from horus.users.models import User
 
@@ -28,10 +30,10 @@ class UserProfile(models.Model):
         blank=True,
         db_constraint=False,
     )
-    date_of_birth = models.DateField()
-    phone = models.CharField(max_length=20)
-    bio = models.TextField(default="I am a user")
-    code_country = models.CharField(max_length=5)
+    date_of_birth = models.DateField(null=True)
+    phone = models.CharField(max_length=20, null=True)
+    bio = models.TextField(default="I am a user", null=True)
+    code_country = models.CharField(max_length=5, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -49,3 +51,9 @@ class UserProfile(models.Model):
 
     def __str__(self) -> str:
         return self.user.email
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)

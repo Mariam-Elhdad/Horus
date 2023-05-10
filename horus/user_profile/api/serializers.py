@@ -34,7 +34,7 @@ class UserProfileCreateSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    picture = ImageUploadSerializer()
+    picture = ImageUploadSerializer(read_only=True)
 
     class Meta:
         model = UserProfile
