@@ -28,7 +28,7 @@ class ReplyCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         comment = get_object_or_404(Comment, pk=validated_data["comment_id"])
         creator = self.context["request"].user
-        instance = Reply(commen=comment, creator=creator, **validated_data)
+        instance = Reply(comment=comment, creator=creator, **validated_data)
         instance.save()
         return instance
 
