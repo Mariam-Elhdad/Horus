@@ -25,12 +25,12 @@ class ReplyCreateSerializer(serializers.ModelSerializer):
         model = Reply
         fields = ["body", "comment_id"]
 
-    # def create(self, validated_data):
-    #     comment = get_object_or_404(Comment, pk=validated_data['comment_id'])
-    #     creator = self.context['request'].user
-    #     instance = Reply(commen=comment, creator=creator, **validated_data)
-    #     instance.save()
-    #     return instance
+    def create(self, validated_data):
+        comment = get_object_or_404(Comment, pk=validated_data["comment_id"])
+        creator = self.context["request"].user
+        instance = Reply(commen=comment, creator=creator, **validated_data)
+        instance.save()
+        return instance
 
 
 class ReplySerializer(UserTextBaseSerializer):
@@ -131,11 +131,11 @@ class PostSerializer(TaggitSerializer, UserTextBaseSerializer):
             "voting_state",
         ]
 
-    # def create(self, validated_data):
-    #     creator = self.context['request'].user
-    #     instance: Post = Post(creator=creator, **validated_data)
-    #     instance.save()
-    #     return instance
+    def create(self, validated_data):
+        creator = self.context["request"].user
+        instance: Post = Post(creator=creator, **validated_data)
+        instance.save()
+        return instance
 
     def get_comments_number(self, obj: Post):
         return obj.post_comments.count()

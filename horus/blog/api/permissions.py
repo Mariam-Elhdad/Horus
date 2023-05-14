@@ -10,7 +10,7 @@ class PostIfCreatorPermission(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        if not request.user:
+        if not request.user.is_authenticated:
             return False
         post = Post.objects.filter(id=request.data["post_id"]).first()
         if not post:
@@ -20,7 +20,7 @@ class PostIfCreatorPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Check if user is the owner.
 
-        if not request.user:
+        if not request.user.is_authenticated:
             return False
 
         return obj.post.all().first().creator == request.user
@@ -34,6 +34,7 @@ class CreatorOrReadOnlyPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Check if user is the owner.
         print(request.user)
-        if not request.user:
+        if not request.user.is_authenticated:
             return False
+        print(obj.creator == request.user, request.method in SAFE_METHODS)
         return obj.creator == request.user or request.method in SAFE_METHODS
