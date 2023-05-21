@@ -6,6 +6,7 @@ from horus.users.models import User
 
 # Create your models here.
 # dummy comment
+# dummy change
 
 
 class ImageUpload(models.Model):
