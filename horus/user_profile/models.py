@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from horus.users.models import User
 
 # Create your models here.
+# dummy comment
 
 
 class ImageUpload(models.Model):
