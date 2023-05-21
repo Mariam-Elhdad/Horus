@@ -3,7 +3,6 @@ from django.db import models
 from horus.users.models import User
 
 # Create your models here.
-# dummy change
 
 
 class ImageUpload(models.Model):
