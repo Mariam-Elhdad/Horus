@@ -12,10 +12,10 @@ from horus.service.api.views import (
 
 urlpatterns = [
     path("bank/", BankViewList.as_view()),
-    path("bank/<int:pk>/", BankViewObject.as_view()),
+    path("bank/<int:id>/", BankViewObject.as_view()),
     path("restaurant/", RestaurantViewList.as_view()),
-    path("restaurant/<int:pk>/", RestaurantViewObject.as_view()),
+    path("restaurant/<int:id>/", RestaurantViewObject.as_view()),
     path("hotel/", HotelViewList.as_view()),
-    path("hotel/<int:pk>/", HotelViewObject.as_view()),
+    path("hotel/<int:id>/", HotelViewObject.as_view()),
     path("search/location/", ServicesByLocation.as_view()),
 ]
