@@ -42,7 +42,7 @@ class BankViewList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Bank.get_by_location(self.request.data.get("location", "egypt"))
+        return Bank.get_by_location(self.request.query_params.get("location", "egypt"))
 
 
 class BankViewObject(generics.RetrieveAPIView):
@@ -57,7 +57,7 @@ class HotelViewList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Hotel.get_by_location(self.request.data.get("location", "egypt"))
+        return Hotel.get_by_location(self.request.query_params.get("location", "egypt"))
 
 
 class HotelViewObject(generics.RetrieveAPIView):
@@ -72,7 +72,9 @@ class RestaurantViewList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Restraunt.get_by_location(self.request.data.get("location", "egypt"))
+        return Restraunt.get_by_location(
+            self.request.query_params.get("location", "egypt")
+        )
 
 
 class RestaurantViewObject(generics.RetrieveAPIView):
