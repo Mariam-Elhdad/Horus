@@ -9,4 +9,4 @@ class searchView(APIView):
     def get(self, request):
         # using custome serializer to get each service with its resul
         result = SearchSerializerResponse.search(request)
-        return Response(data={"services": result}, status=status.HTTP_200_OK)
+        return Response(data=result, status=status.HTTP_200_OK)
