@@ -18,6 +18,7 @@ urlpatterns = [
     # User management
     path("users/", include("horus.users.urls", namespace="users")),
     path("api/profiles/", include("horus.user_profile.api.urls")),
+    path("api/museums/", include("horus.museums.urls")),
     path("accounts/", include("allauth.urls")),
     path("api/events/", include("horus.events.urls")),
     # Your stuff: custom urls includes go here
