@@ -6,7 +6,9 @@ class HistoricalPlaceBase(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(default="it is historical place")
     location = models.CharField(max_length=250, default="", null=True, blank=True)
-    image = models.ImageField(upload_to="images/historical_places")
+    image = models.URLField(
+        default="https://egymonuments.gov.eg/en/museums/egyptian-museum"
+    )
 
     class Meta:
         abstract = True
@@ -24,6 +26,7 @@ class HistoricalPlaceBase(models.Model):
 
 
 class HistoricalPlace(HistoricalPlaceBase):
+    service_type = models.CharField(max_length=17, default="historical_place")
     pass
 
 
@@ -33,6 +36,7 @@ class Museum(HistoricalPlaceBase):
     review_rate = models.IntegerField(null=True, blank=True)
     suggested_durations = models.TextField(null=True, blank=True)
     how_to_get_there = models.TextField(null=True, blank=True)
+    service_type = models.CharField(max_length=10, default="museum")
 
     def __str__(self) -> str:
         return f"Musuem {self.name}"

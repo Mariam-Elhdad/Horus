@@ -63,7 +63,7 @@ class SearchSerializerResponse:
         fields = ["name", "description"]
 
         s = (
-            Search(index=["bank", "restaurant", "hotel"])
+            Search(index=["bank", "restaurant", "hotel", "museum"])
             .query("multi_match", fields=fields, fuzziness="AUTO", query=q)
             .exclude("match", is_latest=True)
         )

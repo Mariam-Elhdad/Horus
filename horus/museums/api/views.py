@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from horus.museums.models import Museum
@@ -11,8 +12,8 @@ from .serializers import MuseumSerializer
 class MuseumByLocation(generics.ListAPIView):
     serializer_class = MuseumSerializer
 
-    def get(self, request, *args, **kwargs):
-        location = request.data.get("location")
+    def get(self, request: Request, *args, **kwargs):
+        location = request.query_params.get("location")
         if location is None:
             return Response(
                 {"detail": "you should pass location"},
@@ -38,6 +39,14 @@ class MuseumList(generics.ListAPIView):
         result_page = paginator.paginate_queryset(self.queryset, request)
         serializer = MuseumSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+
+class MuseumFirst(generics.ListAPIView):
+    # queryset = Museum.objects.all()
+    serializer_class = MuseumSerializer
+
+    def get_queryset(self):
+        return Museum.objects.all()[:10]
 
 
 class MuseumObject(generics.RetrieveAPIView):
