@@ -75,11 +75,13 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "djoser",
+    "taggit",
     "django_elasticsearch_dsl",
 ]
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.events",
     "horus.service",
     "horus.search",
     "horus.user_profile",
