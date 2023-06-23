@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, EventImage, Going, Interested
+from .models import Event, EventImage, Going
 
 # Register your models here.
 
@@ -12,4 +12,3 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 admin.site.register(EventImage)
 admin.site.register(Going)
-admin.site.register(Interested)
