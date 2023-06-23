@@ -28,3 +28,4 @@ djoser==2.1.0
 django-elasticsearch-dsl==7.3
 elasticsearch==7.17.9
 elasticsearch-dsl==7.4.1
+django-taggit==3.0.0
