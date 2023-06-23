@@ -41,13 +41,11 @@ class SearchSerializerResponse:
     # ------------ unwanted after last update --------------- #
     # it is each model with its main serializer
     # must have all services or it will bring an error
-    # serializers = {
-    #     Bank: SearchBankSerializer,
-    #     Hotel: SearchHotelSerializer,
-    #     Restaurant: SearchRestaurantSerializer,
-    # }
-    # docs = {Bank: BankDocsument, Restaurant: RestaurantDocsument, Hotel: HotelDocsument}
-    # --------------------- **** --------------------------- #
+    serializers = {
+        Bank: SearchBankSerializer,
+        Hotel: SearchHotelSerializer,
+        Restraunt: SearchRestrauntSerializer,
+    }
 
     docs = {Bank: BankDocsument, Restraunt: RestrauntDocsument, Hotel: HotelDocsument}
 
