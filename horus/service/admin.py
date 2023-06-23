@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models import Bank, Hotel, Restaurant
 
 
-
 # Register your models here.
 class BankAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "location", "description", "link", "telephone")
