@@ -41,13 +41,13 @@ class SearchSerializerResponse:
     # ------------ unwanted after last update --------------- #
     # it is each model with its main serializer
     # must have all services or it will bring an error
-    serializers = {
-        Bank: SearchBankSerializer,
-        Hotel: SearchHotelSerializer,
-        Restraunt: SearchRestrauntSerializer,
-    }
+    # serializers = {
+    #     Bank: SearchBankSerializer,
+    #     Hotel: SearchHotelSerializer,
+    #     Restaurant: SearchRestaurantSerializer,
+    # }
 
-    docs = {Bank: BankDocsument, Restraunt: RestrauntDocsument, Hotel: HotelDocsument}
+    # docs = {Bank: BankDocsument, Restaurant: RestaurantDocsument, Hotel: HotelDocsument}
 
     @classmethod
     def search(cls, request) -> dict:
