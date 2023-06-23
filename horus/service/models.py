@@ -39,11 +39,13 @@ class BaseService(models.Model):
 
 
 class Bank(BaseService):
+    service_type = models.CharField(max_length=10, default="bank")
     link = models.URLField()
     telephone = models.CharField(max_length=25, null=True, blank=True)
 
 
 class Hotel(BaseService):
+    service_type = models.CharField(max_length=10, default="hotel")
     review = models.SmallIntegerField()
     cleanlinsess_review = models.SmallIntegerField(null=True, blank=True)
     service_review = models.SmallIntegerField(null=True, blank=True)
@@ -51,7 +53,8 @@ class Hotel(BaseService):
     language_spoken = models.CharField(max_length=200)
 
 
-class Restraunt(BaseService):
+class Restaurant(BaseService):
+    service_type = models.CharField(max_length=10, default="restaurant")
     telephone = models.CharField(max_length=25, null=True, blank=True)
     website = models.CharField(max_length=250, null=True, blank=True)
     open_from = models.TimeField(null=True, blank=True)

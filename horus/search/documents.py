@@ -1,7 +1,9 @@
 from django_elasticsearch_dsl import Document
 from django_elasticsearch_dsl.registries import registry
 
-from horus.service.models import Bank, Hotel, Restraunt
+from horus.service.models import Bank, Hotel, Restaurant
+
+STANDARD_FIELDS = ["id", "name", "description", "location", "image", "service_type"]
 
 
 @registry.register_document
@@ -13,25 +15,19 @@ class BankDocsument(Document):
 
     class Django:
         model = Bank
-        fields = [
-            "name",
-            "description",
-        ]
+        fields = STANDARD_FIELDS
 
 
 @registry.register_document
-class RestrauntDocsument(Document):
+class RestaurantDocsument(Document):
     class Index:
-        name = "restraunt"
+        name = "restaurant"
 
     settings = {"number_of_shards": 1, "number_of_replicas": 0}
 
     class Django:
-        model = Restraunt
-        fields = [
-            "name",
-            "description",
-        ]
+        model = Restaurant
+        fields = STANDARD_FIELDS
 
 
 @registry.register_document
@@ -43,7 +39,4 @@ class HotelDocsument(Document):
 
     class Django:
         model = Hotel
-        fields = [
-            "name",
-            "description",
-        ]
+        fields = STANDARD_FIELDS
