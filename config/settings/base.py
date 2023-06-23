@@ -75,14 +75,23 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "djoser",
+    "django_elasticsearch_dsl",
 ]
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.service",
+    "horus.search",
     "horus.user_profile",
     # Your stuff: custom apps go here
     "horus.museums",
 ]
+
+# TODO: may need change in deployment
+ELASTICSEARCH_DSL = {
+    "default": {"hosts": "es"},
+}
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
