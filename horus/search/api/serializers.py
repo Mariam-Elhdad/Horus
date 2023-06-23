@@ -1,7 +1,7 @@
+from elasticsearch_dsl import Search
 from rest_framework import serializers
 
-from horus.search.documents import BankDocsument, HotelDocsument, RestrauntDocsument
-from horus.service.models import Bank, Hotel, Restraunt
+from horus.service.models import Bank, Hotel, Restaurant
 
 
 class SearchSerializer(serializers.Serializer):
@@ -28,9 +28,9 @@ class SearchHotelSerializer(BaseSearchSerializer):
         model = Hotel
 
 
-class SearchRestrauntSerializer(BaseSearchSerializer):
+class SearchRestaurantSerializer(BaseSearchSerializer):
     class Meta(BaseSearchSerializer.Meta):
-        model = Restraunt
+        model = Restaurant
 
 
 class SearchSerializerResponse:
@@ -38,15 +38,16 @@ class SearchSerializerResponse:
     It is class to all services
     """
 
+    # ------------ unwanted after last update --------------- #
     # it is each model with its main serializer
     # must have all services or it will bring an error
-    serializers = {
-        Bank: SearchBankSerializer,
-        Hotel: SearchHotelSerializer,
-        Restraunt: SearchRestrauntSerializer,
-    }
-
-    docs = {Bank: BankDocsument, Restraunt: RestrauntDocsument, Hotel: HotelDocsument}
+    # serializers = {
+    #     Bank: SearchBankSerializer,
+    #     Hotel: SearchHotelSerializer,
+    #     Restaurant: SearchRestaurantSerializer,
+    # }
+    # docs = {Bank: BankDocsument, Restaurant: RestaurantDocsument, Hotel: HotelDocsument}
+    # --------------------- **** --------------------------- #
 
     @classmethod
     def search(cls, request) -> dict:
@@ -59,21 +60,30 @@ class SearchSerializerResponse:
 
         q = search_serializer.data["q"]
 
-        result = []
-        # get all services that contains location like input
-        for service, doc in cls.docs.items():
-            print(f"{service.__name__.lower()}.description")
+        fields = ["name", "description"]
 
-            fields = ["name", "description"]
-            s = (
-                doc.search()
-                .query("multi_match", fields=fields, fuzziness="AUTO", query=q)
-                .exclude("match", is_latest=True)
-            )
-            # s = doc.search().query("match", description=q)
-            qs = s.to_queryset()
-            serializer = cls.serializers[service]
-            services_match = serializer(qs, many=True)
-            result.extend(list(services_match.data))
+        s = (
+            Search(index=["bank", "restaurant", "hotel"])
+            .query("multi_match", fields=fields, fuzziness="AUTO", query=q)
+            .exclude("match", is_latest=True)
+        )
+        qs = s.execute()
 
-        return result
+        return [service.to_dict() for service in qs]
+
+
+# def flatten(dictionary: dict) -> list:
+#     array = [lst[::-1] for lst in dictionary.values() if len(lst)]
+#     result = []
+#     while len(array):
+#         lens = {index: len(lst) for index, lst in enumerate(array)}
+#         max_len = max(lens.values())
+#         max_len_index = 0
+#         for index, length in lens.items():
+#             if length == max_len:
+#                 max_len_index = index
+#                 break
+#         result.append(array[max_len_index].pop())
+#         if len(array[max_len_index]) == 0:
+#             del array[max_len_index]
+#     return result

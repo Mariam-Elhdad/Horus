@@ -3,12 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from horus.service.models import Bank, Hotel, Restraunt
+from horus.service.models import Bank, Hotel, Restaurant
 
 from .serializers import (
     BankSerializer,
     HotelSerializer,
-    RestrauntSerializer,
+    RestaurantSerializer,
     SevicesSerializer,
 )
 
@@ -67,15 +67,15 @@ class HotelViewObject(generics.RetrieveAPIView):
 
 
 class RestaurantViewList(generics.ListAPIView):
-    queryset = Restraunt.objects.all()
-    serializer_class = RestrauntSerializer
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Restraunt.get_by_location(self.request.data.get("location", "egypt"))
+        return Restaurant.get_by_location(self.request.data.get("location", "egypt"))
 
 
 class RestaurantViewObject(generics.RetrieveAPIView):
-    queryset = Restraunt.objects.all()
-    serializer_class = RestrauntSerializer
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticated]

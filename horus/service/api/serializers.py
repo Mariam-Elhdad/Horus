@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from horus.service.models import Bank, BaseService, Hotel, Restraunt
+from horus.service.models import Bank, BaseService, Hotel, Restaurant
 
 
 class BaseServiceSerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class HotelSerializer(BaseServiceSerializer):
         fields = "__all__"
 
 
-class RestrauntSerializer(BaseServiceSerializer):
+class RestaurantSerializer(BaseServiceSerializer):
     telephone = serializers.CharField(read_only=True)
     website = serializers.CharField(read_only=True)
     open_from = serializers.TimeField(read_only=True)
@@ -48,7 +48,7 @@ class RestrauntSerializer(BaseServiceSerializer):
     menu = serializers.URLField(read_only=True)
 
     class Meta:
-        model = Restraunt
+        model = Restaurant
         fields = "__all__"
 
 
@@ -66,7 +66,7 @@ class SevicesSerializer:
     serializers = {
         Bank: BankSerializer,
         Hotel: HotelSerializer,
-        Restraunt: RestrauntSerializer,
+        Restaurant: RestaurantSerializer,
     }
 
     @classmethod
