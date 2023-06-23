@@ -82,6 +82,9 @@ LOCAL_APPS = [
     "horus.users",
     "horus.service",
     "horus.search",
+    "horus.user_profile",
+    # Your stuff: custom apps go here
+    "horus.museums",
 ]
 
 # TODO: may need change in deployment
