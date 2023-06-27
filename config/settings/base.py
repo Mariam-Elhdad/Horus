@@ -81,9 +81,11 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "horus.users",
-    "horus.user_profile",
     "horus.events",
     "horus.service",
+    "horus.search",
+    "horus.user_profile",
+    # Your stuff: custom apps go here
     "horus.museums",
     "horus.reviews",
 ]
