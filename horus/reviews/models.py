@@ -1,6 +1,6 @@
 from django.db import models
 
-from horus.service.models import Bank, Hotel, Restraunt
+from horus.service.models import Bank, Hotel, Restaurant
 from horus.users.models import User
 
 # Create your models here.
@@ -40,12 +40,12 @@ class ReviewHotel(Review):
         return cls.objects.filter(hotel=hotel_id)
 
 
-class ReviewRestraunt(Review):
-    restraunt = models.ForeignKey(Restraunt, on_delete=models.CASCADE)
+class ReviewRestaurant(Review):
+    Restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return super().__str__() + f", to restraunt: {self.restraunt}"
+        return super().__str__() + f", to Restaurant: {self.Restaurant}"
 
     @classmethod
-    def get_by_restraunt(cls, restraunt_id):
-        return cls.objects.filter(restraunt=restraunt_id)
+    def get_by_Restaurant(cls, Restaurant_id):
+        return cls.objects.filter(Restaurant=Restaurant_id)

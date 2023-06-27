@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from horus.reviews.models import ReviewBank, ReviewHotel, ReviewRestraunt
-from horus.service.models import Bank, Hotel, Restraunt
+from horus.reviews.models import ReviewBank, ReviewHotel, ReviewRestaurant
+from horus.service.models import Bank, Hotel, Restaurant
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -79,24 +79,24 @@ class ReviewHotelSerializer(ReviewSerializer):
             )
 
 
-class ReviewRestrauntSerializer(ReviewSerializer):
-    restraunt_id = serializers.IntegerField(required=True)
+class ReviewRestaurantSerializer(ReviewSerializer):
+    Restaurant_id = serializers.IntegerField(required=True)
 
     class Meta:
-        model = ReviewRestraunt
-        fields = ReviewSerializer.Meta.fields + ("restraunt_id",)
+        model = ReviewRestaurant
+        fields = ReviewSerializer.Meta.fields + ("Restaurant_id",)
 
     def create(self, validated_data):
         user = self.context["request"].user
         service_id = self.get_service_id_or_404(
-            validated_data, service_key="restraunt_id"
+            validated_data, service_key="Restaurant_id"
         )
-        return self.create_review(user, validated_data, {"restraunt_id": service_id})
+        return self.create_review(user, validated_data, {"Restaurant_id": service_id})
 
     @staticmethod
-    def get_service_id_or_404(validated_data: dict, service_key: str, Service) -> int:
+    def get_service_id_or_404(validated_data: dict, service_key: str) -> int:
         service_id = validated_data[service_key]
-        if Restraunt.objects.filter(pk=service_id).exists():
+        if Restaurant.objects.filter(pk=service_id).exists():
             return service_id
         else:
             raise serializers.ValidationError(

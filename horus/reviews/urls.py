@@ -5,8 +5,8 @@ from .api.views import (
     ReviewBankObject,
     ReviewHotelList,
     ReviewHotelObject,
-    ReviewRestrauntList,
-    ReviewRestrauntObject,
+    ReviewRestaurantList,
+    ReviewRestaurantObject,
 )
 
 urlpatterns = [
@@ -14,6 +14,6 @@ urlpatterns = [
     path("bank/<int:pk>/", ReviewBankObject.as_view()),
     path("hotel/", ReviewHotelList.as_view()),
     path("hotel/<int:pk>/", ReviewHotelObject.as_view()),
-    path("restraunt/", ReviewRestrauntList.as_view()),
-    path("restraunt/<int:pk>/", ReviewRestrauntObject.as_view()),
+    path("Restaurant/", ReviewRestaurantList.as_view()),
+    path("Restaurant/<int:pk>/", ReviewRestaurantObject.as_view()),
 ]
