@@ -46,10 +46,10 @@ class Bank(BaseService):
 
 class Hotel(BaseService):
     service_type = models.CharField(max_length=10, default="hotel")
-    review = models.SmallIntegerField()
-    cleanlinsess_review = models.SmallIntegerField(null=True, blank=True)
-    service_review = models.SmallIntegerField(null=True, blank=True)
-    value_review = models.SmallIntegerField(null=True, blank=True)
+    review = models.FloatField()
+    cleanlinsess_review = models.FloatField(null=True, blank=True)
+    service_review = models.FloatField(null=True, blank=True)
+    value_review = models.FloatField(null=True, blank=True)
     language_spoken = models.CharField(max_length=200)
 
 
@@ -59,7 +59,7 @@ class Restaurant(BaseService):
     website = models.CharField(max_length=250, null=True, blank=True)
     open_from = models.TimeField(null=True, blank=True)
     open_to = models.TimeField(null=True, blank=True)
-    rating = models.SmallIntegerField()
+    rating = models.FloatField()
     cuisines = models.TextField(null=True, blank=True)
     features = models.TextField(null=True, blank=True)
     meals = models.TextField(null=True, blank=True)

@@ -60,3 +60,6 @@ rm_pyc:
 
 build_index:
 	docker-compose -f local.yml run --rm django python manage.py search_index --rebuild
+
+populate_hotel:
+	docker-compose -f local.yml run --rm django python manage.py import_csv_data Nuweiba-hotel.csv
