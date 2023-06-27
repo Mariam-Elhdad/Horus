@@ -1,17 +1,20 @@
 from rest_framework import generics, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from horus.museums.models import Museum
+from horus.museums.models import Artifact, Museum
 
-from .serializers import MuseumSerializer
+from .serializers import ArtifactSerializer, CategorySearchSerializer, MuseumSerializer
 
 
 # Create your views here.
 class MuseumByLocation(generics.ListAPIView):
     serializer_class = MuseumSerializer
 
-    def get(self, request, *args, **kwargs):
+
+    def get(self, request: Request, *args, **kwargs):
         location = request.query_params.get("location")
         if location is None:
             return Response(
@@ -50,3 +53,25 @@ class MuseumFirst(generics.ListAPIView):
 class MuseumObject(generics.RetrieveAPIView):
     queryset = Museum.objects.all()
     serializer_class = MuseumSerializer
+
+
+class ArtifactsList(generics.ListAPIView):
+    serializer_class = ArtifactSerializer
+
+    def get_queryset(self):
+        return Artifact.objects.all()[:10]
+
+
+class ArtifactsObject(generics.RetrieveAPIView):
+    serializer_class = ArtifactSerializer
+    queryset = Artifact.objects.all()
+
+
+class ArtifactsByCategory(APIView):
+    def get(self, request: Request):
+        params = request.query_params
+        serializer = CategorySearchSerializer(data=params)
+        serializer.is_valid(raise_exception=True)
+        result = Artifact.filter_by_category(params.get("category"))
+        artifacts_serializer = ArtifactSerializer(instance=result, many=True)
+        return Response(artifacts_serializer.data)

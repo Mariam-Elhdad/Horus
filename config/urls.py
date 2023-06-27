@@ -20,6 +20,7 @@ urlpatterns = [
     path("api/profiles/", include("horus.user_profile.api.urls")),
     path("api/museums/", include("horus.museums.urls")),
     path("accounts/", include("allauth.urls")),
+    path("api/events/", include("horus.events.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
@@ -40,6 +41,8 @@ urlpatterns += [
     ),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
+    path("api/service/", include("horus.service.urls")),
+    path("api/search/", include("horus.search.urls")),
 ]
 
 if settings.DEBUG:
