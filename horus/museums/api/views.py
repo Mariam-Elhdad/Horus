@@ -12,7 +12,7 @@ class MuseumByLocation(generics.ListAPIView):
     serializer_class = MuseumSerializer
 
     def get(self, request, *args, **kwargs):
-        location = request.data.get("location")
+        location = request.query_params.get("location")
         if location is None:
             return Response(
                 {"detail": "you should pass location"},
@@ -38,6 +38,13 @@ class MuseumList(generics.ListAPIView):
         result_page = paginator.paginate_queryset(self.queryset, request)
         serializer = MuseumSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+
+class MuseumFirst(generics.ListAPIView):
+    serializer_class = MuseumSerializer
+
+    def get_queryset(self):
+        return Museum.objects.all()[:10]
 
 
 class MuseumObject(generics.RetrieveAPIView):
