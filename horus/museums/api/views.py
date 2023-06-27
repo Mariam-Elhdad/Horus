@@ -43,7 +43,6 @@ class MuseumList(generics.ListAPIView):
 
 
 class MuseumFirst(generics.ListAPIView):
-    # queryset = Museum.objects.all()
     serializer_class = MuseumSerializer
 
     def get_queryset(self):
