@@ -38,8 +38,8 @@ class ReviewHotelList(generics.ListCreateAPIView):
 
 
 class ReviewHotelObject(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ReviewRestaurantSerializer
-    queryset = ReviewBank.objects.all()
+    serializer_class = ReviewHotelSerializer
+    queryset = ReviewHotel.objects.all()
 
 
 class ReviewRestaurantList(generics.ListCreateAPIView):
@@ -47,6 +47,7 @@ class ReviewRestaurantList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         Restaurant_id = self.request.query_params.get("Restaurant_id")
+        print(self.request.query_params)
         if Restaurant_id is None:
             raise ValidationError("Restaurant_id is required")
         return ReviewRestaurant.get_by_Restaurant(Restaurant_id)

@@ -88,6 +88,7 @@ class ReviewRestaurantSerializer(ReviewSerializer):
 
     def create(self, validated_data):
         user = self.context["request"].user
+        print(f"valid data {validated_data}")
         service_id = self.get_service_id_or_404(
             validated_data, service_key="Restaurant_id"
         )
