@@ -88,6 +88,7 @@ See detailed [cookiecutter-django Docker documentation](http://cookiecutter-djan
 
 
 ### path for APIs
+```
 horus
 ├── blog
 │   ├── api
@@ -136,3 +137,5 @@ horus
 │   ├── migrations
 │   └── tests
 └── utils
+
+```
