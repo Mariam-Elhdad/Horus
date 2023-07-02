@@ -85,3 +85,54 @@ See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-djan
 ### Docker
 
 See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+
+
+### path for APIs
+horus
+├── blog
+│   ├── api
+│   └── migrations
+├── contrib
+│   └── sites
+│       └── migrations
+├── events
+│   ├── api
+│   └── migrations
+├── media
+│   ├── events_images
+│   └── images
+│       └── historical_places
+├── museums
+│   ├── api
+│   └── migrations
+├── reviews
+│   ├── api
+│   └── migrations
+├── search
+│   ├── api
+│   └── migrations
+├── service
+│   ├── api
+│   ├── management
+│   │   ├── __pycache__
+│   │   └── commands
+│   │       └── __pycache__
+│   └── migrations
+├── static
+│   ├── css
+│   ├── fonts
+│   ├── images
+│   │   └── favicons
+│   └── js
+├── templates
+│   ├── account
+│   ├── pages
+│   └── users
+├── user_profile
+│   ├── api
+│   └── migrations
+├── users
+│   ├── api
+│   ├── migrations
+│   └── tests
+└── utils
