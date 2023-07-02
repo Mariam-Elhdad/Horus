@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,6 +9,7 @@ from horus.blog.models import ABCVoting, Comment, Downvote, Love, Post, Upvote
 
 from .permissions import CreatorOrReadOnlyPermission
 from .serializers import (
+    BasePostSerializer,
     CommentCreateSerializer,
     CommentFullDataSerializer,
     DownVoteSerializer,
@@ -198,3 +200,16 @@ class VotingState(APIView):
                 {"detail": "post not found"}, status=status.HTTP_404_NOT_FOUND
             )
         return Response({"state": ""})
+
+
+class PostWithTag(APIView):
+    def get(self, requst: Request):
+        tag = requst.query_params.get("tag")
+        if tag is None:
+            return Response(
+                {"details": "should provide tag"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        posts = Post.get_with_tag(tag)
+        serializer = BasePostSerializer(posts, many=True)
+        return Response(serializer.data)

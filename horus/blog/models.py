@@ -30,6 +30,10 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    @classmethod
+    def get_with_tag(cls, tag: str):
+        return cls.objects.filter(tags__name__in=[tag])
+
 
 class CommentBase(models.Model):
     body = models.TextField()

@@ -7,6 +7,7 @@ from .api.views import (
     LoveView,
     PostList,
     PostObject,
+    PostWithTag,
     ReplyList,
     ReplyObject,
     UpAndUnVote,
@@ -24,4 +25,5 @@ urlpatterns = [
     path("upvote/", UpAndUnVote.as_view()),
     path("downvote/", DownAndUnVote.as_view()),
     path("voting_state/", VotingState.as_view()),
+    path("posts_tag/", PostWithTag.as_view()),
 ]
