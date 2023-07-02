@@ -81,6 +81,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "horus.users",
+    "horus.blog",
     "horus.events",
     "horus.service",
     "horus.search",
