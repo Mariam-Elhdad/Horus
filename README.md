@@ -139,3 +139,29 @@ horus
 └── utils
 
 ```
+
+### database design
+   - <a href="https://lucid.app/lucidchart/6c102840-beb6-40cc-8986-41c6915913f5/edit?viewport_loc=-106%2C999%2C2200%2C1147%2C0_0&invitationId=inv_19e5cb20-d9a8-4ca6-8395-696b88aa7366"> <h3> erd digram</h3> </a>
+   - <a href="https://lucid.app/lucidchart/1552b69b-b77d-4715-9dc9-4ea2a7fb2715/edit?view_items=3~_6PkoQaWxn&invitationId=inv_022baf83-6e72-4b75-aa5e-7352775529f8"> <h3> model design diagram</h3> </a>
+
+### technologies:
+   - Django & djangorestframework
+   - PostgreSQL
+   - Elasticsearch
+   - Docker
+   - makefile
+
+### Steps:
+   1. Database design
+   2. Build the initial project using cookie cutter
+   3. make a custome user
+   4. using djsore for authorization and using JWT token
+   5. make the default permission is Authenticated
+   6. building user profile for CRUD operations
+   7. building the services(restaurant, bank and hotel) app and add search by location
+   8. building blogs where the user can make CRUDs on blog and (upvote, downvote, comment, reply on comment, ..etc)
+   9. building events and only admin can make CRUD on it, but normal user can view all events or the current and the future also user can mention that he will go to the event
+   10. building museums which type of services but have relation with different items.
+   11. building search that uses elasticsearch to get the match with high speed and high quality results, we do search on the all services and get the list of results
+   12. reviews the user can add reviews on the services to give feedback about the place
+   13. adding favorite to save favorite items
