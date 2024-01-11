@@ -13,6 +13,7 @@ from .serializers import ArtifactSerializer, CategorySearchSerializer, MuseumSer
 class MuseumByLocation(generics.ListAPIView):
     serializer_class = MuseumSerializer
 
+
     def get(self, request: Request, *args, **kwargs):
         location = request.query_params.get("location")
         if location is None:

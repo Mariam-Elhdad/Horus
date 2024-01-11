@@ -18,4 +18,5 @@ urlpatterns = [
     path("artifacts/", ArtifactsList.as_view()),
     path("artifacts/<int:pk>/", ArtifactsObject.as_view()),
     path("artifacts/category/", ArtifactsByCategory.as_view()),
+
 ]
